@@ -1,23 +1,47 @@
-# Kyoka
-Bot Discord par TAYOKEN
+# Kyoka 🤖  
+Bot Discord par TAYOKEN  
 
-## Utilité
-- Noter les fichiers postées dans un salon précis
-- Envoyer les fichiers les mieux notés du serveur
-- Envoyer des memes au hasard
+---
 
-## Mode d'emploi
-- Mettre les api nécessaire (Si vous voulez baser votre bot sur mon code au lieu d'utiliser "Kyoka!
-#8631")
-- Configurer le salon pour les notations avec "?config [id du salon]"
-- ?help pour voir les autres commandes
+## Description 📝  
+Kyoka est un bot Discord polyvalent conçu pour noter les fichiers partagés dans un salon spécifique, partager les fichiers les mieux notés du serveur, et diffuser des memes aléatoires pour animer vos discussions. Ce bot est en développement actif, avec des mises à jour régulières pour améliorer ses fonctionnalités et corriger les bugs.  
 
-## Attention
-Ce bot est activement en développement, par conséquent des nouvelles màj sont à venir.
-De plus pour des bug reports merci de me contacter en me **mentionnant** sur Twitter @tayoken_ytd.
+---
 
-## Conditions d'utilisation
-Si vous comptez utiliser le code pour __**votre bot**__, merci de me créditer de façon visible (via la bio du bot ou une commande "credit"),
-en mettant le lien de cette page github, ou en créditant un de mes pseudo **Discord :** tayoken **Autres réseaux :** tayoken_ytd.
+## Fonctionnalités 🛠️  
+- **🎯 Notation des fichiers** : Les fichiers postés dans un salon dédié peuvent être notés par les membres.  
+- **🏆 Classement des fichiers** : Envoyez les fichiers les mieux notés du serveur.  
+- **🎲 Memes aléatoires** : Partagez des memes au hasard pour divertir votre communauté.  
 
+---
 
+## Installation et Configuration ⚙️  
+1. **🔑 API nécessaires** : Assurez-vous d'avoir les API nécessaires si vous souhaitez baser votre bot sur ce code plutôt que d'utiliser Kyoka directement.  
+2. **💬 Configuration du salon** : Utilisez la commande `?config [id du salon]` pour définir le salon où les fichiers seront notés.  
+3. **📜 Commandes disponibles** : Tapez `?help` pour voir la liste des commandes disponibles et leur utilisation.  
+
+---
+
+## Développement 🚀  
+Ce bot est en développement actif. Des mises à jour régulières sont publiées pour ajouter de nouvelles fonctionnalités et corriger les bugs. Pour rapporter un bug, merci de me contacter en me **mentionnant** sur Twitter [@tayoken_ytd](https://twitter.com/tayoken_ytd).  
+
+---
+
+## Conditions d'utilisation 📜  
+Si vous utilisez ce code pour votre propre bot, merci de me créditer de manière visible. Vous pouvez le faire via :  
+- **📇 La bio du bot**  
+- **🖋️ Une commande spéciale "credit"**  
+- **🔗 Un lien vers cette page GitHub**  
+- **👤 En créditant un de mes pseudos :**  
+  - **Discord :** tayoken  
+  - **Autres réseaux :** tayoken_ytd  
+
+---
+
+## Contribution 🤝  
+Les contributions sont les bienvenues ! Si vous souhaitez contribuer au développement de Kyoka, n'hésitez pas à forker le projet et à soumettre des pull requests.  
+
+---
+
+## Support 🆘  
+Pour toute question ou support, vous pouvez me contacter sur Discord (tayoken) ou via Twitter [@tayoken_ytd](https://twitter.com/tayoken_ytd).  
