@@ -38,10 +38,5 @@ Si vous utilisez ce code pour votre propre bot, merci de me créditer de manièr
 
 ---
 
-## Contribution 🤝  
-Les contributions sont les bienvenues ! Si vous souhaitez contribuer au développement de Kyoka, n'hésitez pas à forker le projet et à soumettre des pull requests.  
-
----
-
 ## Support 🆘  
 Pour toute question ou support, vous pouvez me contacter sur Discord (tayoken) ou via Twitter [@tayoken_ytd](https://twitter.com/tayoken_ytd).  
