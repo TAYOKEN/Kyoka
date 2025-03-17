@@ -5,6 +5,7 @@ Bot Discord par TAYOKEN
 
 ## Description 📝  
 Kyoka est un bot Discord polyvalent conçu pour noter les fichiers partagés dans un salon spécifique, partager les fichiers les mieux notés du serveur, et diffuser des memes aléatoires pour animer vos discussions. Ce bot est en développement actif, avec des mises à jour régulières pour améliorer ses fonctionnalités et corriger les bugs.  
+Vous pouvez le mettre dans votre serveur en cliquant [ici](https://discord.com/oauth2/authorize?client_id=762697719864885249).
 
 ---
 
