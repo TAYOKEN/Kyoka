@@ -9,6 +9,8 @@ import asyncio
 import time
 import sqlite3
 from datetime import datetime
+from discord.ui import Select, View
+
 
 # Configuration de l'API Reddit
 reddit = praw.Reddit(
