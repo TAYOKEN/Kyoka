@@ -17,8 +17,10 @@ Kyoka est un bot Discord polyvalent conçu pour noter les fichiers partagés dan
 
 ## Installation et Configuration ⚙️  
 1. **🔑 API nécessaires** : Assurez-vous d'avoir les API nécessaires si vous souhaitez baser votre bot sur ce code plutôt que d'utiliser Kyoka directement.  
-2. **💬 Configuration du salon** : Utilisez la commande `?config [id du salon]` pour définir le salon où les fichiers seront notés.  
-3. **📜 Commandes disponibles** : Tapez `?help` pour voir la liste des commandes disponibles et leur utilisation.  
+2. **💬 Configuration du salon** : Utilisez la commande `?channel_config [id du salon]` pour définir le salon où les fichiers seront notés.
+3. **👍 Configuration des threshold** :  Utilisez la commande `?threshold_config` pour définir le nombre de reactions pour gagner des points.
+4. **❤️ Configuration des points** :  Utilisez la commande `?points_config` pour définir les points gagnés.
+5. **📜 Commandes disponibles** : Tapez `?help` pour voir la liste des commandes disponibles et leur utilisation.  
 
 ---
 
