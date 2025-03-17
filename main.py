@@ -112,13 +112,29 @@ def load_config(guild_id):
     guild_id_str = str(guild_id)
     if guild_id_str in config_cache:
         return config_cache[guild_id_str]
-        
+    
+    # Configuration par défaut
+    default_config = {
+        "reaction_channel_id": None,
+        "positive_reaction_threshold": 1,
+        "negative_reaction_threshold": 3,
+        "recycled_reaction_threshold": 5,
+        "positive_points": 2,
+        "negative_points": 1,
+        "recycled_points": 20
+    }
+    
     config_file = get_config_file(guild_id)
+    
     if not os.path.isfile(config_file):
-        config_cache[guild_id_str] = {"reaction_channel_id": None}
+        config_cache[guild_id_str] = default_config.copy()
     else:
         with open(config_file, 'r') as f:
-            config_cache[guild_id_str] = json.load(f)
+            loaded_config = json.load(f)
+        # Fusion avec la configuration par défaut
+        merged_config = default_config.copy()
+        merged_config.update(loaded_config)
+        config_cache[guild_id_str] = merged_config
     
     return config_cache[guild_id_str]
 
@@ -128,7 +144,7 @@ def save_config(guild_id):
     if guild_id_str in config_cache:
         config_file = get_config_file(guild_id)
         with open(config_file, 'w') as f:
-            json.dump(config_cache[guild_id_str], f, indent=4) # TODO: Mettre la possibilité de changer les thresholds et les points gagnés / perdus
+            json.dump(config_cache[guild_id_str], f, indent=4)
 
 # Fonction pour rafraîchir le cache de memes
 async def refresh_meme_cache():
@@ -157,12 +173,11 @@ async def background_save():
 
 @client.event
 async def on_ready():
-    print("Démarré")
-    print("_____________________")
+    print(f"[{NOW}] Démarré \n ______________________________________________________________________________________________________")
     client.loop.create_task(background_save())
 
 @client.command()
-async def config(ctx, channel: discord.TextChannel = None):
+async def channel_config(ctx, channel: discord.TextChannel = None):
     if not ctx.author.guild_permissions.administrator:
         await ctx.send("Vous devez être administrateur pour configurer le salon.")
         return
@@ -184,6 +199,77 @@ async def config(ctx, channel: discord.TextChannel = None):
     await ctx.send(f"Le salon pour les réactions a été configuré : {channel.mention}.")
     with open(LOG_FILE, 'a') as f:
         f.write(f"[{NOW}]: Le salon de reaction de {ctx.guild} a été configuré : {channel.mention} par {ctx.author.id}\n")
+
+@client.command()
+async def threshold_config(ctx):
+    if not ctx.author.guild_permissions.administrator:
+        await ctx.send("Vous devez être administrateur pour configurer les seuils.")
+        return
+
+    # Charger la configuration actuelle
+    config_data = load_config(ctx.guild.id)
+
+    # Créer un menu déroulant pour sélectionner le seuil à modifier
+    select = Select(
+        placeholder="Choisissez le seuil à configurer",
+        options=[
+            discord.SelectOption(label="Réactions positives (👍)", value="positive_reaction_threshold", description=f"Actuel : {config_data['positive_reaction_threshold']}"),
+            discord.SelectOption(label="Réactions négatives (👎)", value="negative_reaction_threshold", description=f"Actuel : {config_data['negative_reaction_threshold']}"),
+            discord.SelectOption(label="Réactions recyclées (♻️)", value="recycled_reaction_threshold", description=f"Actuel : {config_data['recycled_reaction_threshold']}"),
+        ]
+    )
+
+@client.command()
+async def points_config(ctx):
+    if not ctx.author.guild_permissions.administrator:
+        await ctx.send("Vous devez être administrateur pour configurer les points")
+        return
+
+    # Charger la configuration actuelle
+    config_data = load_config(ctx.guild.id)
+
+    
+    select = Select(
+        placeholder="Choisissez le seuil à configurer",
+        options=[
+            discord.SelectOption(label="Réactions positives (👍)", value="positive_points", description=f"Actuel : {config_data['positive_points']}"),
+            discord.SelectOption(label="Réactions négatives (👎)", value="negative_points", description=f"Actuel : {config_data['negative_points']}"),
+            discord.SelectOption(label="Réactions recyclées (♻️)", value="recycled_points", description=f"Actuel : {config_data['recycled_points']}"),
+        ]
+    )
+
+    # Fonction appelée lorsque l'utilisateur fait une sélection
+    async def select_callback(interaction):
+        await interaction.response.send_message(f"Vous avez choisi : {select.values[0]}. Veuillez entrer la nouvelle valeur :", ephemeral=True)
+
+        try:
+            # Attendre la réponse de l'utilisateur
+            response = await client.wait_for(
+                'message',
+                check=lambda m: m.author == ctx.author and m.channel == ctx.channel,
+                timeout=30
+            )
+            new_value = int(response.content)
+
+            # Mettre à jour la configuration
+            config_data[select.values[0]] = new_value
+            save_config(ctx.guild.id)
+
+            await ctx.send(f"Le seuil `{select.values[0]}` a été mis à jour à {new_value}.")
+        except asyncio.TimeoutError:
+            await ctx.send("Temps écoulé. Veuillez réessayer.")
+
+    # Associer le callback au menu
+    select.callback = select_callback
+
+    # Ajouter le menu à une vue
+    view = View()
+    view.add_item(select)
+
+    # Envoyer le menu à l'utilisateur
+    await ctx.send("Choisissez le seuil que vous souhaitez configurer :", view=view)
+    
+
 
 @client.command()
 async def leaderboard(ctx):
@@ -274,7 +360,6 @@ async def on_message(message):
     # Traitement des commandes
     await client.process_commands(message)
 
-# Événement pour gérer les réactions
 @client.event
 async def on_reaction_add(reaction, user):
     if user.bot:
@@ -291,6 +376,13 @@ async def on_reaction_add(reaction, user):
     author_id = str(message.author.id)
     leaderboard_data = load_leaderboard(guild_id)
     should_save = False
+
+    positive_reaction_threshold = config_data["positive_reaction_threshold"]
+    negative_reaction_threshold = config_data["negative_reaction_threshold"]
+    recycled_reaction_threshold = config_data["recycled_reaction_threshold"]
+    positive_points = config_data["positive_points"]
+    negative_points = config_data["negative_points"]
+    recycled_points = config_data["recycled_points"]
 
     if reaction.emoji == '👍' and reaction.count >= positive_reaction_threshold:
         leaderboard_data[author_id] += positive_points
@@ -370,3 +462,4 @@ async def stop(ctx):
     await client.close()
 
 client.run(TOKEN)
+
