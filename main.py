@@ -14,13 +14,13 @@ from discord.ui import Select, View
 
 # Configuration de l'API Reddit
 reddit = praw.Reddit(
-    client_id='CLIENT_ID',
-    client_secret='CLIENT_SECRET', # id et secret de l'API Reddit
+    client_id='TOKEN',
+    client_secret='TOKEN',
     user_agent='discord:bot_meme:v1.0 (by u/TAYOKENytd)',
 )
 
-TOKEN = 'DISCORD_BOT_TOKEN' # Token du bot Discord
-AUTHORIZED_USER_ID = 301312439989960704 # ID de l'utilisateur autorisé à arrêter le bot
+TOKEN = 'TOKEN'
+AUTHORIZED_USER_ID = 301312439989960704
 
 intents = discord.Intents.all() 
 intents.messages = True
@@ -344,6 +344,12 @@ async def on_message(message):
 
     guild_id = message.guild.id
     
+    # Vérifier si le message contient "sigma"
+    if "sigma" in message.content.lower().split() or "kms" in message.content.lower().split():
+        # URL de la vidéo à envoyer
+        video_url = "https://cdn.discordapp.com/attachments/856614592570720267/1362106216536346724/CGiAn47Q8ZYNdIZC.mp4?ex=68012fc4&is=67ffde44&hm=8335a7b9d4c5fce05f6b511d378b2cf15fe35368863614dac5bfb38a2c97e7b1&"
+        await message.channel.send(video_url)
+    
     # Ajout de points basé sur le nombre de mots
     words_count = len(message.content.split())
     if words_count > 0:
@@ -464,4 +470,3 @@ async def stop(ctx):
     await client.close()
 
 client.run(TOKEN)
-
